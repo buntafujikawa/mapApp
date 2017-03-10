@@ -26,6 +26,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="9oO-vl-44G" appends="YES" id="dl0-yt-mwp"/>
+                                    <outletCollection property="gestureRecognizers" destination="8od-Rg-qnc" appends="YES" id="WXU-fx-mCQ"/>
                                 </connections>
                             </mapView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="nny-E9-3Bl">
@@ -58,6 +59,11 @@
                         <action selector="pressMap:" destination="BYZ-38-t0r" id="XsL-nk-UFe"/>
                     </connections>
                 </pongPressGestureRecognizer>
+                <tapGestureRecognizer id="8od-Rg-qnc">
+                    <connections>
+                        <action selector="tapScreen:" destination="BYZ-38-t0r" id="CJf-wr-nHq"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-308" y="41"/>
         </scene>

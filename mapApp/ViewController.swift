@@ -15,8 +15,6 @@ class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var searchBar: UISearchBar!
     
-    var testManager:CLLocationManager = CLLocationManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,6 +84,10 @@ class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
                 self.addPin(title: placemark.placemark.name!, subtitle: placemark.placemark.title!, mapPoint: mapPoint)
             }
         })
+    }
+    
+    @IBAction func tapScreen(_ sender: Any) {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
