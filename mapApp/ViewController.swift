@@ -9,13 +9,17 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var mapView: MKMapView!
+
+    @IBOutlet var searchBar: UISearchBar!
+    
+    var testManager:CLLocationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // アプリを開いたら新宿駅が中心になるように設定
         let center = CLLocationCoordinate2DMake(35.690553, 139.699579)
         
@@ -27,6 +31,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
         
         mapView.delegate = self
+        searchBar.delegate = self
     }
     
     @IBAction func pressMap(_ sender: UILongPressGestureRecognizer) {
@@ -60,6 +65,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
         pinView.animatesDrop = true
         
         return pinView
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+         // キーボードを閉じる
+        searchBar.resignFirstResponder()
+        
+        // 検索条件
+        let request = MKLocalSearchRequest()
+        request.naturalLanguageQuery = searchBar.text
+        
+        request.region = mapView.region
+        
+        // 検索の実行
+        let localSearch: MKLocalSearch = MKLocalSearch(request: request)
+        localSearch.start(completionHandler: {(result, error) in
+            for placemark in (result?.mapItems)! {
+                guard error == nil else { return }
+                let mapPoint = CLLocationCoordinate2DMake(placemark.placemark.coordinate.latitude, placemark.placemark.coordinate.longitude)
+                self.addPin(title: placemark.placemark.name!, subtitle: placemark.placemark.title!, mapPoint: mapPoint)
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
