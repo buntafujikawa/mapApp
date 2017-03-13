@@ -8,31 +8,29 @@
 
 import UIKit
 import MapKit
-import CoreLocation
 
 class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var searchBar: UISearchBar!
-    var locationManager: CLLocationManager!
+    var locationManager: CLLocationManager = CLLocationManager()
+    var currentPlace: MKPointAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationManager = CLLocationManager()
 
-        // アプリを開いたら新宿駅が中心になるように設定
-        let center = CLLocationCoordinate2DMake(35.690553, 139.699579)
+        // ユーザーの向いている方向を表示させたい
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
         
-        // 表示範囲
-        let span = MKCoordinateSpanMake(0.01, 0.01)
+        // 位置情報の取得を開始する
+        locationManager.startUpdatingLocation()
         
-        // 中心座標と表示範囲をマップに登録する
-        let region = MKCoordinateRegionMake(center, span)
-        mapView.setRegion(region, animated: true)
+        // 位置情報の利用許可を変更する画面をポップアップ表示する
+        locationManager.requestWhenInUseAuthorization()
         
         mapView.delegate = self
         searchBar.delegate = self
+        locationManager.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,6 +93,11 @@ class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, 
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 現在地のみピンにさせない
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
         var pinView:MKPinAnnotationView!
         
         pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "testPin")
@@ -131,11 +134,20 @@ class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, 
         self.view.endEditing(true)
     }
     
-    // 位置情報を取得する
-    // 現在地を表示できる、グーグルのAPIを使用して広範囲の検索ができる
-    // http://hajihaji-lemon.com/smartphone/swift/cllocationmanager/
-    // http://hajihaji-lemon.com/smartphone/swift/cllocationmanager_pin/
-
+    // 位置情報取得時の呼び出しメソッド
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        for location in locations {
+            let center = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+            let span = MKCoordinateSpanMake(0.01, 0.01)
+            let region = MKCoordinateRegionMake(center, span)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("位置情報取得失敗")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
