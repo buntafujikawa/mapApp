@@ -6,8 +6,10 @@
 //  Copyright © 2017年 藤川 文汰. All rights reserved.
 //
 
+// TODO: 早めにファイル分割をしないとできなくなりそう
 import UIKit
 import MapKit
+import GoogleMaps
 
 class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate {
   
@@ -110,25 +112,29 @@ class ViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, 
   }
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    // キーボードを閉じる
-    searchBar.resignFirstResponder()
-    
-    // 検索条件
-    let request = MKLocalSearchRequest()
-    request.naturalLanguageQuery = searchBar.text
-    
-    request.region = mapView.region
-    
-    // 検索の実行
-    let localSearch: MKLocalSearch = MKLocalSearch(request: request)
-    localSearch.start(completionHandler: {(result, error) in
-      for placemark in (result?.mapItems)! {
-        guard error == nil else { return }
-        let mapPoint = CLLocationCoordinate2DMake(placemark.placemark.coordinate.latitude, placemark.placemark.coordinate.longitude)
-        self.addPin(title: placemark.placemark.name!, subtitle: placemark.placemark.title!, mapPoint: mapPoint)
-      }
-    })
+    // ここにgoogleのapiを使用したものを書きたい
   }
+  
+//  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//    // キーボードを閉じる
+//    searchBar.resignFirstResponder()
+//    
+//    // 検索条件
+//    let request = MKLocalSearchRequest()
+//    request.naturalLanguageQuery = searchBar.text
+//    
+//    request.region = mapView.region
+//    
+//    // 検索の実行
+//    let localSearch: MKLocalSearch = MKLocalSearch(request: request)
+//    localSearch.start(completionHandler: {(result, error) in
+//      for placemark in (result?.mapItems)! {
+//        guard error == nil else { return }
+//        let mapPoint = CLLocationCoordinate2DMake(placemark.placemark.coordinate.latitude, placemark.placemark.coordinate.longitude)
+//        self.addPin(title: placemark.placemark.name!, subtitle: placemark.placemark.title!, mapPoint: mapPoint)
+//      }
+//    })
+//  }
   
   @IBAction func tapScreen(_ sender: Any) {
     self.view.endEditing(true)
