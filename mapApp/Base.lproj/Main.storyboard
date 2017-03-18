@@ -21,25 +21,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Ag6-Z0-zA4">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ag6-Z0-zA4">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="9oO-vl-44G" appends="YES" id="dl0-yt-mwp"/>
+                                    <outletCollection property="gestureRecognizers" destination="8od-Rg-qnc" appends="YES" id="WXU-fx-mCQ"/>
+                                </connections>
                             </mapView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="nny-E9-3Bl">
+                                <rect key="frame" x="30" y="50" width="315" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1BN-BP-AdY"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Ag6-Z0-zA4" secondAttribute="trailing" id="9kx-9d-qLt"/>
+                            <constraint firstItem="nny-E9-3Bl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="30" id="AoD-zQ-sQg"/>
+                            <constraint firstAttribute="trailing" secondItem="nny-E9-3Bl" secondAttribute="trailing" constant="30" id="La5-Bz-IaV"/>
                             <constraint firstItem="Ag6-Z0-zA4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MnT-CU-pS6"/>
                             <constraint firstItem="Ag6-Z0-zA4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="jCr-q7-DM8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Ag6-Z0-zA4" secondAttribute="bottom" id="xSz-st-45v"/>
+                            <constraint firstItem="nny-E9-3Bl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="30" id="xdO-Dv-bQ9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="Ag6-Z0-zA4" id="UR8-Yg-cMC"/>
+                        <outlet property="searchBar" destination="nny-E9-3Bl" id="GVi-xr-WuL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="9oO-vl-44G">
+                    <connections>
+                        <action selector="pressMap:" destination="BYZ-38-t0r" id="XsL-nk-UFe"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <tapGestureRecognizer id="8od-Rg-qnc">
+                    <connections>
+                        <action selector="tapScreen:" destination="BYZ-38-t0r" id="CJf-wr-nHq"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+            <point key="canvasLocation" x="-708" y="30"/>
         </scene>
     </scenes>
 </document>
